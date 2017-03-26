@@ -3,7 +3,7 @@ package providers
 import (
 	"errors"
 	"fmt"
-	"github.com/m407/oauth2_proxy/api"
+	"github.com/m407/oauth2-proxy/api"
 	"log"
 	"net/http"
 	"net/url"

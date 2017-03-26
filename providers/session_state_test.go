@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/m407/oauth2_proxy/cookie"
+	"github.com/m407/oauth2-proxy/cookie"
 	"github.com/bmizerany/assert"
 )
 

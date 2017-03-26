@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/m407/oauth2_proxy/api"
+	"github.com/m407/oauth2-proxy/api"
 )
 
 type FacebookProvider struct {

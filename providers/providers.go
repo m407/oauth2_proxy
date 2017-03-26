@@ -1,7 +1,7 @@
 package providers
 
 import (
-	"github.com/m407/oauth2_proxy/cookie"
+	"github.com/m407/oauth2-proxy/cookie"
 )
 
 type Provider interface {
