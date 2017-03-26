@@ -3,7 +3,7 @@ oauth2_proxy
 
 <small>(This project was renamed from Google Auth Proxy - May 2015)</small>
 
-A reverse proxy and static file server that provides authentication using Providers (Google, Github, and others)
+A reverse proxy and static file server that provides authentication using Providers (Google, GitHub, and others)
 to validate accounts by email, domain or group.
 
 [![Build Status](https://secure.travis-ci.org/bitly/oauth2_proxy.png?branch=master)](http://travis-ci.org/bitly/oauth2_proxy)
@@ -24,7 +24,7 @@ to validate accounts by email, domain or group.
 
 ## OAuth Provider Configuration
 
-You will need to register an OAuth application with a Provider (Google, Github or another provider), and configure it with Redirect URI(s) for the domain you intend to run `oauth2_proxy` on.
+You will need to register an OAuth application with a Provider (Google, GitHub or another provider), and configure it with Redirect URI(s) for the domain you intend to run `oauth2_proxy` on.
 
 Valid providers are :
 
@@ -198,6 +198,7 @@ Usage of oauth2_proxy:
   -scope="": Oauth scope specification
   -signature-key="": GAP-Signature request signature key (algorithm:secretkey)
   -skip-auth-regex=: bypass authentication for requests path's that match (may be given multiple times)
+  -skip-provider-button=false: will skip sign-in-page to directly reach the next step: oauth/start
   -tls-cert="": path to certificate file
   -tls-key="": path to private key file
   -upstream=: the http url(s) of the upstream endpoint or file:// paths for static files. Routing is based on the path
@@ -350,19 +351,23 @@ server {
   server_name ...;
   include ssl/ssl.conf;
 
-  location = /auth {
+  location = /oauth2/auth {
     internal;
     proxy_pass http://127.0.0.1:4180;
   }
 
+  location /oauth2/ {
+    proxy_pass http://127.0.0.1:4180;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Scheme $scheme;
+  }
+
   location / {
-    auth_request /auth;
-    error_page 401 = ...;
+    auth_request /oauth2/auth;
+    error_page 401 = https://example.com/oauth2/sign_in;
 
     root /path/to/the/site;
-    default_type text/html;
-    charset utf-8;
-    charset_types application/json utf-8;
   }
 }
 ```
